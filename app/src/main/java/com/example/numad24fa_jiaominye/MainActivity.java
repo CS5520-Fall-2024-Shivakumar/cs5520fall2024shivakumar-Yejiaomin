@@ -36,3 +36,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
+
+//public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "Nama: Amy Ye\nEmail:ye.jiao@northeastern.edu", Toast.LENGTH_LONG.show());
+//            }
