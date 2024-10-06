@@ -6,9 +6,8 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -16,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView display;
 
     MaterialButton num1, num2, num3, num4, num5, num6, num7, num8, num9;
-    MaterialButton add, num0, minus, multiply, equal;
+    MaterialButton add, num0, minus, delete, equal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assign(num0, R.id.num0);
         assign(add, R.id.add);
         assign(minus, R.id.minus);
-        assign(multiply, R.id.multiply);
+        assign(delete, R.id.delete);
         assign(equal, R.id.equal);
     }
     void assign (MaterialButton btn, int id) {
@@ -48,6 +47,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         MaterialButton button = (MaterialButton) view;
         String buttonText = button.getText().toString();
-        display.setText(buttonText);
+        String expression = display.getText().toString();
+        expression = expression + buttonText;
+        display.setText(expression);
+        if (buttonText.equals("X")) {
+            expression = display.getText().toString();
+            expression = expression.substring(0, expression.length() - 2);
+            display.setText(expression);
+            return;
+        }
+        if (buttonText.equals("=")) {
+            String result = getResult(expression.substring(0, expression.length()-1));
+            display.setText(result);
+        }
+    }
+    String getResult(String expression) {
+        try{
+            Expression e = new ExpressionBuilder(expression).build();
+            // Evaluate the expression and get the result
+            double result = e.evaluate();
+            // Return the result as a string
+            String finalResult = String.valueOf(result);
+            if (finalResult.endsWith(".0")) {
+                finalResult = finalResult.replace(".0", "");
+            }
+            return finalResult;
+        } catch (Exception e) {
+            return "Invalid Expression";
+        }
     }
 }
