@@ -2,6 +2,8 @@ package com.example.numad24fa_jiaominye;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,11 +19,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MaterialButton num1, num2, num3, num4, num5, num6, num7, num8, num9;
     MaterialButton add, num0, minus, delete, equal;
 
+    Button quickCalcButton;
+    GridLayout calculatorLayout;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        quickCalcButton = findViewById(R.id.quickcalc_button);
+        calculatorLayout = findViewById(R.id.gridLayout);
+        display = findViewById(R.id.display);
+        quickCalcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quickCalcButton.setVisibility(View.GONE);
+                display.setVisibility(View.VISIBLE);
+                calculatorLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
         display = findViewById(R.id.display);
         assign(num1, R.id.num1);
         assign(num2, R.id.num2);
