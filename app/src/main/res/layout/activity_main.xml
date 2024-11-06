@@ -1,10 +1,11 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"> <!-- 整体布局的内边距 -->
-
+    tools:context=".MainActivity">
     <!-- QuickCalc Button -->
     <Button
         android:id="@+id/quickcalc_button"
@@ -31,20 +32,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_margin="30dp"/>
 
     <!-- GridLayout for number buttons -->
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="6"
+        android:columnCount="3"
         android:rowCount="5"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/display"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp">
+        android:layout_margin="30dp">
 
         <!-- Number and operation buttons with equal spacing -->
         <Button
@@ -53,7 +54,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -62,7 +62,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -71,7 +70,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <!-- 第二行 -->
@@ -81,7 +79,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -90,7 +87,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -99,7 +95,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <!-- 第三行 -->
@@ -109,7 +104,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -118,7 +112,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -127,7 +120,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <!-- 第四行 -->
@@ -137,7 +129,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -146,7 +137,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -155,7 +145,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="2"
             android:layout_columnWeight="1"/>
 
         <!-- 第五行 -->
@@ -165,7 +154,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="3"
             android:layout_columnWeight="1"/>
 
         <Button
@@ -174,7 +162,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_columnSpan="1"
             android:layout_columnWeight="1"/>
 
     </GridLayout>
