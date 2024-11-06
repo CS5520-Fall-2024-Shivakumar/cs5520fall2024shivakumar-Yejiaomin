@@ -1,135 +1,182 @@
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="30dp">
+    android:padding="20dp"> <!-- 整体布局的内边距 -->
 
+    <!-- QuickCalc Button -->
     <Button
         android:id="@+id/quickcalc_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QuickCalc"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:visibility="visible"/>
+        android:text="@string/quickcalc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"/> <!-- 初始可见 -->
 
-    <!-- TextView to display the calculation expression -->
+    <!-- TextView for displaying the calculation expression -->
     <TextView
         android:id="@+id/display"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text=""
         android:gravity="end"
         android:textSize="32sp"
         android:padding="16dp"
         android:background="#EFEFEF"
         android:textColor="#000"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
 
-    <!-- GridLayout for buttons -->
+    <!-- GridLayout for number buttons -->
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="3"
+        android:columnCount="6"
         android:rowCount="5"
-        android:layout_marginTop="50dp"
-        android:padding="0dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/display"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp">
 
-
-
-        <!-- Buttons -->
+        <!-- Number and operation buttons with equal spacing -->
         <Button
             android:id="@+id/num1"
-            android:text="1"
-            android:layout_width="wrap_content"
+            android:text="@string/one"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num2"
-            android:text="2"
-            android:layout_width="wrap_content"
+            android:text="@string/two"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num3"
-            android:text="3"
-            android:layout_width="wrap_content"
+            android:text="@string/three"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
+        <!-- 第二行 -->
         <Button
             android:id="@+id/num4"
-            android:text="4"
-            android:layout_width="wrap_content"
+            android:text="@string/four"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num5"
-            android:text="5"
-            android:layout_width="wrap_content"
+            android:text="@string/five"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num6"
-            android:text="6"
-            android:layout_width="wrap_content"
+            android:text="@string/six"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
+        <!-- 第三行 -->
         <Button
             android:id="@+id/num7"
-            android:text="7"
-            android:layout_width="wrap_content"
+            android:text="@string/seven"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num8"
-            android:text="8"
-            android:layout_width="wrap_content"
+            android:text="@string/eight"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num9"
-            android:text="9"
-            android:layout_width="wrap_content"
+            android:text="@string/nine"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
+        <!-- 第四行 -->
         <Button
             android:id="@+id/add"
-            android:text="+"
-            android:layout_width="wrap_content"
+            android:text="@string/add"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/num0"
-            android:text="0"
-            android:layout_width="wrap_content"
+            android:text="@string/zero"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
         <Button
             android:id="@+id/minus"
-            android:text="-"
-            android:layout_width="wrap_content"
+            android:text="@string/minus"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"/>
+
+        <!-- 第五行 -->
         <Button
             android:id="@+id/delete"
-            android:text="X"
-            android:layout_width="wrap_content"
+            android:text="@string/delete"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_columnSpan="2"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="3"
+            android:layout_columnWeight="1"/>
 
         <Button
             android:id="@+id/equal"
-            android:text="="
-            android:layout_width="wrap_content"
+            android:text="@string/equal"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_columnSpan="1"/>
+            android:layout_margin="8dp"
+            android:layout_columnSpan="1"
+            android:layout_columnWeight="1"/>
 
     </GridLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
