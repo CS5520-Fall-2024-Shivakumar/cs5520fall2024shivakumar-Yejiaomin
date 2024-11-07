@@ -38,6 +38,8 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.exp4j)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
