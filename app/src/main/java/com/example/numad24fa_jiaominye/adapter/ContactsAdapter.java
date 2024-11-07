@@ -1,5 +1,6 @@
 package com.example.numad24fa_jiaominye.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         void onContactClick(Contact contact);
     }
 
-
     @NonNull
     @Override
-    public ContactsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false); // 修正这里的布局文件
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,6 +42,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         Contact contact = contactList.get(position);
         holder.nameTextView.setText(contact.getName());
         holder.phoneTextView.setText(contact.getPhone());
+        Log.d("ContactsAdapter", "Binding contact at position " + position + ": " + contact.getName() + ", " + contact.getPhone());
+
         holder.itemView.setOnClickListener(v -> clickListener.onContactClick(contact));
 
     }

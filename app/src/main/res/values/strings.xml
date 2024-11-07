@@ -11,8 +11,13 @@
 
     <!-- Contact Collector -->
     <string name="add_contact">Add Contact</string>
-    <string name="contact_name">Name</string>
-    <string name="contact_phone">Phone Number</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_phone">Enter Phone Number</string>
+    <string name="confirm_add">Add</string>
+    <string name="cancel_add">Cancel</string>
+    <string name="show_name">Name</string>
+    <string name="show_phone">Phone Number</string>
+
 
     <!-- Calculator Activity -->
     <string name="one">1</string>

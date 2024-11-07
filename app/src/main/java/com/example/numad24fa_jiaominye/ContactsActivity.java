@@ -12,9 +12,13 @@ import android.text.Layout;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,32 +37,57 @@ public class ContactsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ContactsAdapter adapter;
     private List<Contact> contactList;
+    private SharedPreferences sharedPreferences;
+
+    private final ActivityResultLauncher<Intent> addContactLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String name = result.getData().getStringExtra("name");
+                    String phone = result.getData().getStringExtra("phone");
+                    Log.d("ContactsActivity", "Received name: " + name + ", phone: " + phone);
+
+                    if (name != null && phone != null) {
+                        Contact newContact = new Contact(name, phone);
+                        contactList.add(newContact);
+                        adapter.notifyItemInserted(contactList.size() - 1);
+                        saveContacts(); // Save the updated contact list
+                        Log.d("ContactsActivity", "Contact added and saved: " + newContact);
+
+                    }
+                } else if (result.getResultCode() == RESULT_CANCELED) {
+                    // Log and show a Snackbar only when contact addition is canceled.
+                    Log.d("ContactsActivity", "Contact addition cancelled by user.");
+                    Snackbar.make(recyclerView, "Contact addition cancelled", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Log.d("ContactsActivity", "Result data was null or incomplete.");
+                }
+            });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
-        loadContacts();
-
         recyclerView = findViewById(R.id.recycler_view_contacts);
-        recyclerView.setHasFixedSize(true); // Improve performance for fixed-size list
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        sharedPreferences = getSharedPreferences("contacts_prefs", MODE_PRIVATE);
+        contactList = new ArrayList<>();
+
+        loadContacts();
 
         adapter = new ContactsAdapter(contactList, this::onContactClick);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ExtendedFloatingActionButton fab = findViewById(R.id.add_contact);
+        fab.extend();
         fab.setOnClickListener(view -> {
-            addNewContact();
+            Intent intent = new Intent(ContactsActivity.this, AddContactActivity.class);
+            addContactLauncher.launch(intent);
         });
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveContacts();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -66,73 +95,50 @@ public class ContactsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadContacts();
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged(); // Refresh list when returning to this activity
+        Log.d("ContactsActivity", "onResume: Contacts reloaded and adapter notified.");
+
     }
 
-    private void addNewContact() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add new contact");
+    private final ActivityResultLauncher<Intent> contactDetailLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    boolean isDeleted = result.getData().getBooleanExtra("delete_contact", false);
+                    if (isDeleted) {
+                        String nameToDelete = result.getData().getStringExtra("name");
+                        contactList.removeIf(contact -> contact.getName().equals(nameToDelete));
+                        adapter.notifyDataSetChanged();
+                        saveContacts();
+                        Toast.makeText(this, "Contact deleted", Toast.LENGTH_SHORT).show();
+                    }
+                    boolean isEdit = result.getData().getBooleanExtra("update_contact", false);
+                    int position = result.getData().getIntExtra("position", -1);
+                    String name = result.getData().getStringExtra("name");
+                    String phone = result.getData().getStringExtra("phone");
+                    Log.d("debug", "position loaded: " + position);
+                    Log.d("debug", "name loaded: " + name);
+                    Log.d("debug", "phone loaded: " + phone);
+                    if(isEdit && position >=0) {
+                        contactList.get(position).setName(name);
+                        contactList.get(position).setPhone(phone);
+                        adapter.notifyDataSetChanged();
+                        saveContacts();
+                        Toast.makeText(this, "Contact Updated", Toast.LENGTH_SHORT).show();
+                    }
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(50, 20, 50, 20);
 
-        // inset name
-        final EditText nameInput = new EditText(this);
-        nameInput.setHint("Enter Name");
-        layout.addView(nameInput);
-
-        // insert phone
-        final EditText phoneInput = new EditText(this);
-        phoneInput.setHint("Enter Phone");
-        phoneInput.setInputType(InputType.TYPE_CLASS_PHONE);
-        layout.addView(phoneInput);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String name =  nameInput.getText().toString().trim();
-                String phone = phoneInput.getText().toString().trim();
-
-                if (!name.isEmpty() && !phone.isEmpty()) {
-                    Contact newContact = new Contact(name, phone);
-                    contactList.add(newContact);
-                    adapter.notifyItemInserted(contactList.size() - 1);
-                    saveContacts(); // Save contacts after adding new one
-
-                    Snackbar snackbar = Snackbar.make(recyclerView, "Contact Added", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", v -> {
-                                contactList.remove(newContact);
-                                adapter.notifyItemRemoved(contactList.size());
-                                saveContacts();
-                            });
-                    snackbar.show();
-                } else {
-                    Snackbar.make(recyclerView, "Both fields are required", Snackbar.LENGTH_LONG).show();
                 }
-            }
-        });
-        builder.setNegativeButton("cancle", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialoge, int which) {
-                dialoge.dismiss();
-            }
-        });
-        builder.show();
-    }
-
+            });
     private void onContactClick(Contact contact) {
-        // Start a phone call when contact is clicked
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contact.getPhone()));
-        startActivity(intent);
+        Intent intent = new Intent(this, ContactDetailActivity.class);
+        intent.putExtra("name", contact.getName());
+        intent.putExtra("phone", contact.getPhone());
+        intent.putExtra("position", contact.getPosition());
+        contactDetailLauncher.launch(intent);
     }
 
     private void saveContacts() {
-        SharedPreferences sharedPreferences = getSharedPreferences("contacts_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         Gson gson = new Gson();
         String json = gson.toJson(contactList);
         editor.putString("contacts_list", json);
@@ -143,18 +149,25 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     private void loadContacts() {
-        SharedPreferences sharedPreferences = getSharedPreferences("contacts_prefs", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("contacts_list", null);
+        Log.d("ContactsActivity", "Loaded contacts JSON: " + json);
 
         Type type = new TypeToken<ArrayList<Contact>>() {}.getType();
-        contactList = gson.fromJson(json, type);
+        List<Contact> loadedContacts = gson.fromJson(json, type);
 
-        if (contactList == null) {
-            contactList = new ArrayList<>(); // Initialize an empty list if null
+
+        if (loadedContacts == null) {
+            loadedContacts = new ArrayList<>(); // Initialize an empty list if null
+            Log.d("ContactsActivity", "No contacts found, initializing empty list.");
+
         }
-
-        Log.d("ContactsActivity", "Loaded contacts: " + contactList.toString());
+        contactList.clear();  // 确保每次重新加载清空列表
+        contactList.addAll(loadedContacts);
+        for (int i=0; i<contactList.size(); i++){
+            contactList.get(i).setPosition(i);
+        }
+        Log.d("ContactsActivity", "Contacts loaded: " + contactList);
 
     }
 }
