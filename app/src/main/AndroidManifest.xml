@@ -24,6 +24,8 @@
         <activity android:name=".AboutMeActivity"/>
         <activity android:name=".ContactsActivity" />
         <activity android:name=".AddContactActivity" />
+        <activity android:name=".ContactDetailActivity" />
+
     </application>
 
 </manifest>
