@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">NUMAD24Fa_JiaominYe</string>
-    <string name="quickcalc">QuickCalc</string>
+    <!-- Main Activity Buttons -->
+    <string name="calculator">QuickCalc</string>
+    <string name="contacts">Contacts Collector</string>
+    <string name="about_me">About Me</string>
+
+    <!-- About Me Activity -->
+    <string name="my_name">Name: Jiaomin(Amy) Ye</string>
+    <string name="my_email">Email: yejiaomin@gmail.com</string>
+
+    <!-- Contact Collector -->
+    <string name="add_contact">Add Contact</string>
+    <string name="contact_name">Name</string>
+    <string name="contact_phone">Phone Number</string>
+
+    <!-- Calculator Activity -->
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>
@@ -15,4 +29,6 @@
     <string name="minus">-</string>
     <string name="delete">X</string>
     <string name="equal">=</string>
+
+
 </resources>
