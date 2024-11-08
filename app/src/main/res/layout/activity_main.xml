@@ -5,6 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/main_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <!-- Hello World Text -->
+    <TextView
+        android:id="@+id/hello_world_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello, World!"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:shadowColor="#000000"
+        android:shadowRadius="5"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="120dp"/>
+
     <!-- QuickCalc Button -->
     <Button
         android:id="@+id/calculator_button"

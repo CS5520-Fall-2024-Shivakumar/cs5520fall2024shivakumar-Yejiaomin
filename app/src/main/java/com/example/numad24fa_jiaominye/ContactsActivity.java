@@ -5,18 +5,12 @@ import android.app.sdksandbox.SandboxedSdk;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.Layout;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
